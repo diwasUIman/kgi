@@ -36,3 +36,18 @@
     transform: rotate(360deg);
   }
 }
+
+body{
+  font-size: 12px !important;
+}
+
+.block-style{
+  display: inline-block;
+  width: 70px;
+  height: 70px;
+  margin: 0.5rem;
+}
+
+.margin-top{
+  margin: 10px 0px;
+}
