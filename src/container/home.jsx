@@ -1,6 +1,5 @@
 import React from "react";
 import '../App.css';
-import SalesComponent from '../components/sales-component';
 import SetSalesComponent from '../components/salesComponent';
 
 class HomeComponent extends React.Component {
@@ -20,11 +19,11 @@ class HomeComponent extends React.Component {
                 <div className="container-fluid">
 
                     <h4 className="p-2">Dashboard</h4>
-                    <div class="container-fluid">
-                        <div class="row justify-content-start">
-                            <div class="col-md block-style p-2 bg-info text-white">Total Sales</div>
-                            <div class="col-md block-style p-2 bg-info text-white">Total Stock</div>
-                            <div class="col-md block-style p-2 bg-info text-white">Total Orders</div>
+                    <div className="container-fluid">
+                        <div className="row justify-content-start">
+                            <div className="col-md block-style p-2 bg-info text-white">Total Sales</div>
+                            <div className="col-md block-style p-2 bg-info text-white">Total Stock</div>
+                            <div className="col-md block-style p-2 bg-info text-white">Total Orders</div>
                         </div>
                     </div>
 

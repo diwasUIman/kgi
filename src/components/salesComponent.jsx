@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../App.css';
+import OrderListTable from './orderListTable';
 
 export default function SetSalesComponent() {
 
@@ -41,7 +42,7 @@ export default function SetSalesComponent() {
 
         }
     ])
-    const [orderList, setOrderList] = useState({})
+    const [orderList, setOrderList] = useState([])
 
     function handleProductChange(evt) {
         let result = productList.find(item => {
@@ -54,24 +55,64 @@ export default function SetSalesComponent() {
     function handleTotal() {
         let quantity = document.getElementById("quantity").value;
         if (quantity) {
-            setCurrentProduct({ ...currentProduct, totalAmount: quantity * currentProduct.rate })
+            setCurrentProduct({ ...currentProduct, totalAmount: quantity * currentProduct.rate, quantity: Number(quantity) })
         }
     }
 
+    function handleAdd() {
+        setOrderList(orderList => [...orderList, currentProduct]);
+        resetOrder();
+    }
+
+    function handleRemove(key){
+        setOrderList(orderList.filter((item,ind,arr) => arr.indexOf(item) !== key))
+    }
+
+    function resetOrder() {
+        document.getElementById("products").value = "";
+        document.getElementById("quantity").value = "";
+        setCurrentProduct({})
+    }
+
+    let grossAmount;
+
+    function handleDiscount(evt) {
+        let discount = evt.target.value;
+        let VAT = (13/100 * grossAmount);
+        let netAmount = grossAmount + VAT;
+
+        if(evt.target.value.includes("%")) {
+            let discount_percent = Number(discount.replace(/\D/g,''));
+            discount = discount_percent / 100 * netAmount;
+            document.getElementById("netAmount").value = netAmount - discount;
+        }
+        document.getElementById("netAmount").value = netAmount - discount;
+    }
+
     useEffect(() => {
-        console.log(currentProduct)
+        grossAmount = orderList.map(item => item.totalAmount)
+                               .reduce((prev,curr) => { return prev + curr}, null);
+
+        document.getElementById("grossAmount").value = grossAmount;
+
+        let VAT = (13/100 * grossAmount);
+        document.getElementById("VAT").value = VAT;
+
+        document.getElementById("netAmount").value = grossAmount + VAT;
+
+        console.log("Newlist ", orderList)
     })
 
-    let products = productList.map(item => {
+    let products = productList.map((item, idx) => {
         return (
-            <option className="lead"> {item.name} </option>
+            <option className="lead" key={idx}> {item.name} </option>
         )
-    })
+    });
 
     return (
         <div className="">
             <div className="margin-top"><b>Add Order</b></div>
-            <form onSubmit>
+            <form>
                 <table style={{ width: "100%" }}>
 
                     {/* Customer information */}
@@ -114,9 +155,9 @@ export default function SetSalesComponent() {
                                 </thead>
 
                                 {/* Orderlist here */}
-                                <tbody>
-
-                                </tbody>
+                                <OrderListTable orderList={orderList}
+                                                handleRemove={handleRemove}
+                                />
 
                                 <thead>
                                     {/* Product Add Selection here */}
@@ -146,7 +187,7 @@ export default function SetSalesComponent() {
                                             </label>
                                         </th>
                                         <th scope="col" style={{ textAlign: "right" }}>
-                                            <button type="button" onClick className="btn btn-dark"><b>+</b>
+                                            <button type="button" onClick={handleAdd} className="btn btn-dark"><b>+</b>
                                             </button>
                                         </th>
                                     </tr>
@@ -157,25 +198,26 @@ export default function SetSalesComponent() {
                     <tr>
                         <td colSpan="3" style={{ textAlign: "right" }}>
                             <div>
-                                <label> Gross Amount </label>
-                                <input type="number" className="margin-top" id="grossAmount" disabled />
+                                <label style={{ marginRight: "20px" }}> Gross Amount </label>
+                                <input type="number" className="margin-top" id="grossAmount" style={{ textAlign: "right" }} disabled />
                             </div>
                             <div>
-                                <label> VAT 9% </label>
-                                <input type="number" className="margin-top" id="VAT" disabled />
+                                <label style={{ marginRight: "20px" }}> VAT 13% </label>
+                                <input type="number" className="margin-top" id="VAT" style={{ textAlign: "right" }} disabled />
                             </div>
                             <div>
-                                <label> Discount </label>
-                                <input type="number" className="margin-top" id="discountAmount" />
+                                <label style={{ marginRight: "20px" }}> Discount </label>
+                                <input type="string" className="margin-top" id="discountAmount" style={{ textAlign: "right" }}
+                                onChange={(e) => handleDiscount(e)}/>
                             </div>
                             <div>
-                                <label> Net Amount </label>
-                                <input type="number" className="margin-top" id="netAmount" disabled />
+                                <label style={{ marginRight: "20px" }}> Net Amount </label>
+                                <input type="number" className="margin-top" id="netAmount" style={{ textAlign: "right" }} disabled />
                             </div>
                         </td>
                     </tr>
                 </table>
-                <input type="submit" value="Create Order" className="btn btn-primary" />
+                <input type="" value="Create Order" className="btn btn-primary" />
             </form>
         </div>
     )
