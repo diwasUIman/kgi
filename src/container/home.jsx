@@ -1,40 +1,43 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import '../App.css';
 import SetSalesComponent from '../components/salesComponent';
+import DashboardComponent from '../container/dashboard';
 
-class HomeComponent extends React.Component {
-    /**
-     *
-     */
-    constructor(props) {
-        super(props);
-        this.state = {
-            currentPage : "Sales"
-        }
+function HomeComponent() {
+
+    const [totalSales, setTotalSales] = useState(0);
+    const [totalStock, setTotalStock] = useState(0);
+    const [totalOrders, setTotalOrder] = useState([]);
+
+    useEffect(() => {
+
+    })
+
+    function addNewOrder(order, sumTotal) {
+        // add order info like Customer, Bill info
+        setTotalOrder(totalOrders => [...totalOrders, order])
+        setTotalSales(totalSales + sumTotal)
+
     }
 
-    render() {
-        return (
-            <div>
+    return (
+        <div>
+            <div className="container-fluid">
+
+                <h4 className="p-2">Dashboard</h4>
+                <DashboardComponent totalSales={totalSales}
+                    totalStock={totalStock}
+                    totalOrders={totalOrders.length}
+                />
+
                 <div className="container-fluid">
-
-                    <h4 className="p-2">Dashboard</h4>
-                    <div className="container-fluid">
-                        <div className="row justify-content-start">
-                            <div className="col-md block-style p-2 bg-info text-white">Total Sales</div>
-                            <div className="col-md block-style p-2 bg-info text-white">Total Stock</div>
-                            <div className="col-md block-style p-2 bg-info text-white">Total Orders</div>
-                        </div>
-                    </div>
-
-                    <div className="container-fluid">
-                        {/* <SalesComponent /> */}
-                        <SetSalesComponent />
-                    </div>
+                    <SetSalesComponent
+                        addNewOrder={addNewOrder}
+                    />
                 </div>
             </div>
-        )
-    }
+        </div>
+    )
 }
 
 export default HomeComponent;

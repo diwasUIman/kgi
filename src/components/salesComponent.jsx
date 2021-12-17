@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { propTypes } from 'react-bootstrap/esm/Image';
 import '../App.css';
 import OrderListTable from './orderListTable';
 
-export default function SetSalesComponent() {
+export default function SetSalesComponent(props) {
 
     const [currentProduct, setCurrentProduct] = useState({})
     const [productList, setList] = useState([
@@ -43,6 +44,7 @@ export default function SetSalesComponent() {
         }
     ])
     const [orderList, setOrderList] = useState([])
+    const [totalSales, setTotalSales] = useState(0)
 
     function handleProductChange(evt) {
         let result = productList.find(item => {
@@ -64,8 +66,9 @@ export default function SetSalesComponent() {
         resetOrder();
     }
 
-    function handleRemove(key){
-        setOrderList(orderList.filter((item,ind,arr) => arr.indexOf(item) !== key))
+    function handleRemove(key) {
+        setOrderList(orderList.filter((item, ind, arr) => arr.indexOf(item) !== key))
+        document.getElementById("discountAmount").value = "";
     }
 
     function resetOrder() {
@@ -74,15 +77,26 @@ export default function SetSalesComponent() {
         setCurrentProduct({})
     }
 
+    function handleCancel() {
+        setOrderList([])
+    }
+
+    function handleCreate(){
+        props.addNewOrder(orderList, sumTotal);
+        handleCancel()
+    }
+
     let grossAmount;
+    let netAmount;
+    let sumTotal;
 
     function handleDiscount(evt) {
         let discount = evt.target.value;
-        let VAT = (13/100 * grossAmount);
+        let VAT = (13 / 100 * grossAmount);
         let netAmount = grossAmount + VAT;
 
-        if(evt.target.value.includes("%")) {
-            let discount_percent = Number(discount.replace(/\D/g,''));
+        if (evt.target.value.includes("%")) {
+            let discount_percent = Number(discount.replace(/\D/g, ''));
             discount = discount_percent / 100 * netAmount;
             document.getElementById("netAmount").value = netAmount - discount;
         }
@@ -91,16 +105,19 @@ export default function SetSalesComponent() {
 
     useEffect(() => {
         grossAmount = orderList.map(item => item.totalAmount)
-                               .reduce((prev,curr) => { return prev + curr}, null);
+            .reduce((prev, curr) => { return prev + curr }, null);
 
         document.getElementById("grossAmount").value = grossAmount;
 
-        let VAT = (13/100 * grossAmount);
+        let VAT = (13 / 100 * grossAmount);
         document.getElementById("VAT").value = VAT;
 
-        document.getElementById("netAmount").value = grossAmount + VAT;
+        netAmount = grossAmount + VAT
+        document.getElementById("netAmount").value = netAmount;
 
-        console.log("Newlist ", orderList)
+        sumTotal = totalSales + netAmount
+
+        console.log("sum ", sumTotal)
     })
 
     let products = productList.map((item, idx) => {
@@ -156,7 +173,7 @@ export default function SetSalesComponent() {
 
                                 {/* Orderlist here */}
                                 <OrderListTable orderList={orderList}
-                                                handleRemove={handleRemove}
+                                    handleRemove={handleRemove}
                                 />
 
                                 <thead>
@@ -208,7 +225,7 @@ export default function SetSalesComponent() {
                             <div>
                                 <label style={{ marginRight: "20px" }}> Discount </label>
                                 <input type="string" className="margin-top" id="discountAmount" style={{ textAlign: "right" }}
-                                onChange={(e) => handleDiscount(e)}/>
+                                    onChange={(e) => handleDiscount(e)} />
                             </div>
                             <div>
                                 <label style={{ marginRight: "20px" }}> Net Amount </label>
@@ -217,7 +234,11 @@ export default function SetSalesComponent() {
                         </td>
                     </tr>
                 </table>
-                <input type="" value="Create Order" className="btn btn-primary" />
+                <button type="button" class="btn btn-primary" style={{ marginRight: "20px" }}
+                        onClick={() => handleCreate()}>
+                    Create Order
+                </button>
+                <button type="button" class="btn btn-dark" onClick={handleCancel}>Cancel</button>
             </form>
         </div>
     )
