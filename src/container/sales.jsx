@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { propTypes } from 'react-bootstrap/esm/Image';
 import '../App.css';
-import OrderListTable from './orderListTable';
+import OrderListTable from '../components/orderListTable';
 
-export default function SetSalesComponent(props) {
+export default function SalesComponent(props) {
 
     const [currentProduct, setCurrentProduct] = useState({})
     const [productList, setList] = useState([
@@ -11,7 +10,7 @@ export default function SetSalesComponent(props) {
             id: 1,
             catagory: "",
             name: "Product 1",
-            rate: 100,
+            rate: 88.5,
 
         },
         {
@@ -112,12 +111,13 @@ export default function SetSalesComponent(props) {
         let VAT = (13 / 100 * grossAmount);
         document.getElementById("VAT").value = VAT;
 
-        netAmount = grossAmount + VAT
+        // REMOVE FLOOR HERE FOR PROD
+        // *************************
+        // REMOVE FLOOR HERE FOR PROD
+        netAmount = Math.floor(grossAmount + VAT);
         document.getElementById("netAmount").value = netAmount;
 
         sumTotal = totalSales + netAmount
-
-        console.log("sum ", sumTotal)
     })
 
     let products = productList.map((item, idx) => {
@@ -127,7 +127,7 @@ export default function SetSalesComponent(props) {
     });
 
     return (
-        <div className="">
+        <div className="mt-4">
             <div className="margin-top"><b>Add Order</b></div>
             <form>
                 <table style={{ width: "100%" }}>
@@ -234,11 +234,11 @@ export default function SetSalesComponent(props) {
                         </td>
                     </tr>
                 </table>
-                <button type="button" class="btn btn-primary" style={{ marginRight: "20px" }}
+                <button type="button" className="btn btn-primary" style={{ marginRight: "20px" }}
                         onClick={() => handleCreate()}>
                     Create Order
                 </button>
-                <button type="button" class="btn btn-dark" onClick={handleCancel}>Cancel</button>
+                <button type="button" className="btn btn-dark" onClick={handleCancel}>Cancel</button>
             </form>
         </div>
     )

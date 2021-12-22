@@ -4,7 +4,7 @@ import '../App.css';
 export default function OrderListTable(props) {
 
     return (
-        <thead>
+        <tbody>
             {props.orderList.map((item, idx) => {
                 return (
                     <tr key={idx}>
@@ -22,6 +22,6 @@ export default function OrderListTable(props) {
                 )
             })
             }
-        </thead>
+        </tbody>
     )
 }
