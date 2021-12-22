@@ -164,37 +164,39 @@ export default function SalesComponent(props) {
                         />
 
                         {/* Product Add Selection here */}
-                        <tr>
-                            <th scope="col"></th>
-                            <th scope="col">
-                                <select name="products" id="products" className="form-control"
-                                    style={{ width: "100%" }}
-                                    onChange={handleProductChange} >
-                                    <option hidden disabled selected value> Select a Product </option>
-                                    {products}
-                                </select>
-                            </th>
-                            <th scope="col" style={{ width: "100px" }}>
-                                <input type="number" id="quantity" className="form-control"
-                                    style={{ width: "100%" }}
-                                    onChange={handleTotal} />
-                            </th>
-                            <th scope="col" style={{ textAlign: "right" }}>
-                                <label className="lead" id="rate">
-                                    {currentProduct.rate}
-                                </label>
-                            </th>
-                            <th scope="col" style={{ textAlign: "right" }}>
-                                <label className="lead" id="amount">
-                                    {currentProduct.totalAmount}
-                                </label>
-                            </th>
-                            <th scope="col" style={{ textAlign: "right" }}>
-                                <button type="button" onClick={handleAdd} className="btn btn-warning" style={{width:"40%"}}>
-                                    <b> + </b>
-                                </button>
-                            </th>
-                        </tr>
+                        <tbody>
+                            <tr>
+                                <th scope="col"></th>
+                                <th scope="col">
+                                    <select name="products" id="products" className="form-control"
+                                        style={{ width: "100%" }}
+                                        onChange={handleProductChange} >
+                                        <option hidden disabled selected value> Select a Product </option>
+                                        {products}
+                                    </select>
+                                </th>
+                                <th scope="col" style={{ width: "100px" }}>
+                                    <input type="number" id="quantity" className="form-control"
+                                        style={{ width: "100%" }}
+                                        onChange={handleTotal} />
+                                </th>
+                                <th scope="col" style={{ textAlign: "right" }}>
+                                    <label className="lead" id="rate">
+                                        {currentProduct.rate}
+                                    </label>
+                                </th>
+                                <th scope="col" style={{ textAlign: "right" }}>
+                                    <label className="lead" id="amount">
+                                        {currentProduct.totalAmount}
+                                    </label>
+                                </th>
+                                <th scope="col" style={{ textAlign: "right" }}>
+                                    <button type="button" onClick={handleAdd} className="btn btn-warning" style={{ width: "40%" }}>
+                                        <b> + </b>
+                                    </button>
+                                </th>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
 
