@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import '../App.css';
+import '../style/form-style.css';
 
 export default function OrderListTable(props) {
 
@@ -8,7 +9,7 @@ export default function OrderListTable(props) {
             {props.orderList.map((item, idx) => {
                 return (
                     <tr key={idx}>
-                        <td> {idx + 1} </td>
+                        <td className="px-3"> {idx + 1} </td>
                         <td> {item.name} </td>
                         <td> {item.quantity} </td>
                         <td style={{ textAlign: "right" }}> {item.rate} </td>

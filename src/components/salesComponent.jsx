@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../App.css';
-import OrderListTable from '../components/orderListTable';
+import OrderListTable from './order-list-table';
+import { CompanyInfoComponent } from '../components/info-tab'
 
 export default function SalesComponent(props) {
 
@@ -100,17 +101,15 @@ export default function SalesComponent(props) {
 
     useEffect(() => {
         grossAmount = orderList.map(item => item.totalAmount)
-            .reduce((prev, curr) => { return prev + curr }, null);
+            .reduce((prev, curr) => { return prev + curr }, 0);
+                                    // CNAHGED NULL TO 0 above
 
         document.getElementById("grossAmount").value = grossAmount;
 
         let VAT = (13 / 100 * grossAmount);
         document.getElementById("VAT").value = VAT;
 
-        // REMOVE FLOOR HERE FOR PROD
-        // *************************
-        // REMOVE FLOOR HERE FOR PROD
-        netAmount = Math.floor(grossAmount + VAT);
+        netAmount = grossAmount + VAT;
         document.getElementById("netAmount").value = netAmount;
 
         sumTotal = totalSales + netAmount
@@ -124,27 +123,10 @@ export default function SalesComponent(props) {
 
     return (
         <div className="mt-4">
-            <div className="margin-top"><b>Add Order</b></div>
+            <div className="my-2"><b>Add Order</b></div>
             <form id="sales-form">
                 {/* Customer information */}
-                <div class="form-group row">
-                    <label for="cName" class="col-sm-2 col-form-label">Customer Name</label>
-                    <div class="col-sm-3">
-                        <input type="text" class="form-control" id="cName" placeholder="" />
-                    </div>
-                </div>
-                <div class="form-group row pt-2">
-                    <label for="cAddress" class="col-sm-2 col-form-label">Customer Address</label>
-                    <div class="col-sm-3">
-                        <input type="text" class="form-control" id="cAddress" placeholder="" />
-                    </div>
-                </div>
-                <div class="form-group row pt-2">
-                    <label for="cAddress" class="col-sm-2 col-form-label">Customer Phone</label>
-                    <div class="col-sm-3">
-                        <input type="number" class="form-control" id="cPhone" placeholder="" />
-                    </div>
-                </div>
+                <CompanyInfoComponent name="Customer" />
 
                 <div className="table-responsive pt-4">
                     <table className="table table-striped table-sm">
@@ -191,7 +173,7 @@ export default function SalesComponent(props) {
                                     </label>
                                 </th>
                                 <th scope="col" style={{ textAlign: "right" }}>
-                                    <button type="button" onClick={handleAdd} className="btn btn-warning" style={{ width: "40%" }}>
+                                    <button type="button" onClick={handleAdd} className="btn btn-warning">
                                         <b> + </b>
                                     </button>
                                 </th>

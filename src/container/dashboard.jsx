@@ -1,5 +1,6 @@
 import React from "react";
 import '../App.css';
+import SalesComponent from '../components/salesComponent';
 
 export default function DashboardComponent(props) {
 
@@ -25,6 +26,8 @@ export default function DashboardComponent(props) {
                     </div>
                 </div>
             </div>
+
+            <SalesComponent addNewOrder={props.addNewOrder} />
         </div>
     )
 }

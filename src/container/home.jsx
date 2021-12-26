@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import '../../App.css';
-import SalesComponent from '../../container/salesComponent';
-import DashboardComponent from '../../components/dashboard';
+import '../App.css';
+import OrderForm from '../components/order-form';
+import { handleAdd, handleRemove } from "../components/salesComponent";
+import DashboardComponent from './dashboard';
 
 function HomeComponent() {
 
@@ -39,6 +40,7 @@ function HomeComponent() {
         },
     ]);
     const [totalOrders, setTotalOrder] = useState([]);
+    const [orderList, setOrderList] = useState([])
 
     useEffect(() => {
     })
@@ -56,46 +58,49 @@ function HomeComponent() {
                 if (product.id && product.id === order.id) {
                     product.inventory = product.inventory - order.quantity;
                 }
-                console.log("totalInventory after ", totalInventory)
+                // console.log("totalInventory after ", totalInventory)
             })
         });
     }
 
     return (
         <div>
-            <nav class="navbar navbar-dark bg-dark">
-                <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Company Name</a>
-                <ul class="navbar-nav px-3">
-                    <li class="nav-item text-nowrap">
-                        <a class="nav-link" href="#">Sign out</a>
+            <nav className="navbar navbar-dark bg-dark">
+                <a className="navbar-brand col-sm-3 col-md-2 mr-0 px-3" href="#">Company Name</a>
+                <ul className="navbar-nav px-3">
+                    <li className="nav-item text-nowrap">
+                        <a className="nav-link" href="#">Sign out</a>
                     </li>
                 </ul>
             </nav>
 
             <div className="container-fluid">
-                <div class="col-md-2 d-none d-md-block bg-light sidebar">
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#">Dashboard</a>
+                <div className="col-md-2 d-none d-md-block bg-light sidebar">
+                    <ul className="nav flex-column">
+                        <li className="nav-item">
+                            <a className="nav-link" href="#">Dashboard</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Orders</a>
+                        <li className="nav-item">
+                            <a className="nav-link" href="#">Orders</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Products</a>
+                        <li className="nav-item">
+                            <a className="nav-link" href="#">Suppliers</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Reports</a>
+                        <li className="nav-item">
+                            <a className="nav-link" href="#">Products</a>
                         </li>
                     </ul>
                 </div>
 
-                <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <main className="col-md-9 ms-sm-auto col-lg-10">
                     <div className="pt-3 pb-2 mb-3">
-                        <DashboardComponent totalSales={totalSales}
-                            totalOrders={totalOrders.length} />
+                        {/* <DashboardComponent
+                            totalSales={totalSales}
+                            totalOrders={totalOrders.length}
+                            addNewOrder={addNewOrder}
+                             /> */}
 
-                        <SalesComponent addNewOrder={addNewOrder} />
+                        <OrderForm/>
                     </div>
                 </main>
             </div>
