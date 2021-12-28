@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../App.css';
 import OrderForm from '../components/order-form';
-import { handleAdd, handleRemove } from "../components/salesComponent";
 import DashboardComponent from './dashboard';
 
 function HomeComponent() {
@@ -84,10 +83,13 @@ function HomeComponent() {
                             <a className="nav-link" href="#">Orders</a>
                         </li>
                         <li className="nav-item">
+                            <a className="nav-link" href="#">Products</a>
+                        </li>
+                        <li className="nav-item">
                             <a className="nav-link" href="#">Suppliers</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="#">Products</a>
+                            <a className="nav-link" href="#">Customers</a>
                         </li>
                     </ul>
                 </div>

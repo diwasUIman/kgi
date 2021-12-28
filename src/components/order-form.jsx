@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 import '../style/form-style.css';
-import { DateComponent } from './dateComponent';
-import { CompanyInfoComponent } from '../components/info-tab';
-import { CreateButton } from './button'
+import {DateComponent} from './dateComponent';
+import {CompanyInfoComponent} from '../components/info-tab';
+import {CreateButton} from './button';
 import OrderListTable from './order-list-table';
 
 export default function OrderFormComponent() {
@@ -12,7 +12,7 @@ export default function OrderFormComponent() {
     const [qty, setQty] = useState("");
     const [rt, setRt] = useState("");
     const [amt, setAmt] = useState("");
-    const [subTotal, setSubTotal] = useState("")
+    const [subTotal, setSubTotal] = useState("");
 
     function handleAdd() {
         let newEntry = {
@@ -31,7 +31,7 @@ export default function OrderFormComponent() {
     }
 
     function handleCreate(){
-
+        console.log(supplyOrderList)
     }
 
     function resetOrder() {
@@ -48,24 +48,23 @@ export default function OrderFormComponent() {
             return p + c
         }, 0);
         setSubTotal(subTotal)
-        console.log(subTotal)
     })
 
     return (
         <div className="mt-4">
             <div className="my-2"><b>Order List Form</b></div>
-            <form id="sales-form">
+            <form id="order-form">
 
                 <DateComponent />
 
                 <table className="mb-2">
                     {/* Customer information */}
-                    <CompanyInfoComponent name="Customer" />
+                    <CompanyInfoComponent name="Customer"/>
 
                     <th style={{ width: "40%" }}></th>
 
                     {/* Supplier information */}
-                    <CompanyInfoComponent name="Supplier" />
+                    <CompanyInfoComponent name="Supplier"/>
                 </table>
 
 
@@ -76,8 +75,8 @@ export default function OrderFormComponent() {
                                 <th scope="col" style={{ width: "10%" }}>Sn. No.</th>
                                 <th scope="col">Description</th>
                                 <th scope="col">Qty</th>
-                                <th scope="col" style={{ textAlign: "right" }}>Rate</th>
-                                <th scope="col" style={{ textAlign: "right" }}>Amount</th>
+                                <th scope="col" className="form-input-rt">Rate</th>
+                                <th scope="col" className="form-input-rt">Amount</th>
                             </tr>
                         </thead>
 

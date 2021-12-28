@@ -16,3 +16,10 @@ export function CancelButton(props) {
         <button type="button" className="btn btn-dark">Cancel</button>
     )
 }
+
+export function AddNewButton(props) {
+
+    return (
+        <button className="btn btn-warning col-sm-4 "> Add new </button>
+    )
+}
