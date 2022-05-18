@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import '../style/form-style.css';
 import {DateComponent} from './dateComponent';
-import {CompanyInfoComponent} from '../components/info-tab';
+import {CompanyInfoComponent} from './company-info';
 import {CreateButton} from './button';
 import OrderListTable from './order-list-table';
 
@@ -109,7 +109,7 @@ export default function OrderFormComponent() {
                                         value={amt}
                                     />
                                 </th>
-                                <th scope="col" class="form-input-rt">
+                                <th scope="col" className="form-input-rt">
                                     <button type="button" onClick={handleAdd} className="btn btn-warning">
                                         <b> + </b>
                                     </button>

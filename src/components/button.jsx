@@ -20,6 +20,6 @@ export function CancelButton(props) {
 export function AddNewButton(props) {
 
     return (
-        <button className="btn btn-warning col-sm-4 "> Add new </button>
+        <button className="btn btn-warning col-sm-4"> Add new </button>
     )
 }

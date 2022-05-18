@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../App.css';
 import OrderListTable from './order-list-table';
-import { CompanyInfoComponent } from '../components/info-tab'
+import { CompanyInfoComponent } from './company-info'
 
 export default function SalesComponent(props) {
 

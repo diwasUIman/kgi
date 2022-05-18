@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../App.css';
 import OrderForm from '../components/order-form';
+import ContactListComponent from './contactList';
 import DashboardComponent from './dashboard';
 
 function HomeComponent() {
@@ -96,13 +97,15 @@ function HomeComponent() {
 
                 <main className="col-md-9 ms-sm-auto col-lg-10">
                     <div className="pt-3 pb-2 mb-3">
-                        {/* <DashboardComponent
+                        <DashboardComponent
                             totalSales={totalSales}
                             totalOrders={totalOrders.length}
                             addNewOrder={addNewOrder}
-                             /> */}
+                             />
 
-                        <OrderForm/>
+                        {/* <OrderForm/> */}
+
+                        {/* <ContactListComponent name="Supplier" /> */}
                     </div>
                 </main>
             </div>
