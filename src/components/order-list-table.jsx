@@ -10,7 +10,7 @@ export default function OrderListTable(props) {
                 return (
                     <tr key={idx}>
                         <td className="px-3"> {idx + 1} </td>
-                        <td> {item.name} </td>
+                        <td> {item.Name} </td>
                         <td> {item.quantity} </td>
                         <td style={{ textAlign: "right" }}> {item.rate} </td>
                         <td style={{ textAlign: "right" }}> {item.totalAmount} </td>

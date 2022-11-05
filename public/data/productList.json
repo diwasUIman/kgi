@@ -1,0 +1,39 @@
+{
+    "records": [
+        {
+            "id": 1,
+            "Name": "Product 1",
+            "catagory": "",
+            "inventory": 1000,
+            "rate": 88.5
+        },
+        {
+            "id": 2,
+            "Name": "Product 2",
+            "catagory": "",
+            "inventory": 1000,
+            "rate": 15
+        },
+        {
+            "id": 3,
+            "Name": "Product 3",
+            "catagory": "",
+            "inventory": 1000,
+            "rate": 100
+        },
+        {
+            "id": 4,
+            "Name": "Product 4",
+            "catagory": "",
+            "inventory": 1000,
+            "rate": 50
+        },
+        {
+            "id": 5,
+            "Name": "Product 5",
+            "catagory": "",
+            "inventory": 1000,
+            "rate": 10
+        }
+    ]
+}

@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import '../style/form-style.css';
 import {DateComponent} from './dateComponent';
-import {CompanyInfoComponent} from './company-info';
+import { CustomerDetailsComponent } from './customer-details';
 import {CreateButton} from './button';
 import OrderListTable from './order-list-table';
 
@@ -59,12 +59,12 @@ export default function OrderFormComponent() {
 
                 <table className="mb-2">
                     {/* Customer information */}
-                    <CompanyInfoComponent name="Customer"/>
+                    {/* <CustomerDetailsComponent name="Customer"/> */}
 
                     <th style={{ width: "40%" }}></th>
 
                     {/* Supplier information */}
-                    <CompanyInfoComponent name="Supplier"/>
+                    <CustomerDetailsComponent name="Supplier"/>
                 </table>
 
 

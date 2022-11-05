@@ -3,49 +3,50 @@ import '../App.css';
 import OrderForm from '../components/order-form';
 import ContactListComponent from './contactList';
 import DashboardComponent from './dashboard';
+import SalesComponent from '../components/salesComponent';
 
 function HomeComponent() {
 
     const [totalSales, setTotalSales] = useState(0);
     const [totalInventory, setTotalInventory] = useState([
-        {
-            id: 1,
-            name: "Product 1",
-            catagory: "",
-            inventory: 1000
-        },
-        {
-            id: 2,
-            name: "Product 2",
-            catagory: "",
-            inventory: 1000
-        },
-        {
-            id: 3,
-            name: "Product 3",
-            catagory: "",
-            inventory: 1000
-        },
-        {
-            id: 4,
-            name: "Product 4",
-            catagory: "",
-            inventory: 1000
-        },
-        {
-            id: 5,
-            name: "Product 5",
-            catagory: "",
-            inventory: 1000
-        },
+        // {
+        //     id: 1,
+        //     name: "Product 1",
+        //     catagory: "",
+        //     inventory: 1000
+        // },
+        // {
+        //     id: 2,
+        //     name: "Product 2",
+        //     catagory: "",
+        //     inventory: 1000
+        // },
+        // {
+        //     id: 3,
+        //     name: "Product 3",
+        //     catagory: "",
+        //     inventory: 1000
+        // },
+        // {
+        //     id: 4,
+        //     name: "Product 4",
+        //     catagory: "",
+        //     inventory: 1000
+        // },
+        // {
+        //     id: 5,
+        //     name: "Product 5",
+        //     catagory: "",
+        //     inventory: 1000
+        // },
     ]);
     const [totalOrders, setTotalOrder] = useState([]);
     const [orderList, setOrderList] = useState([])
 
     useEffect(() => {
-    })
+    },[])
 
-    function addNewOrder(order, sumTotal) {
+    function addNewOrder(order, sumTotal, customerInfo) {
         // add order info like Customer, Bill info
         setTotalOrder(totalOrders => [...totalOrders, order])
         setTotalSales(totalSales + sumTotal)
@@ -58,7 +59,7 @@ function HomeComponent() {
                 if (product.id && product.id === order.id) {
                     product.inventory = product.inventory - order.quantity;
                 }
-                // console.log("totalInventory after ", totalInventory)
+                console.log("totalInventory after ", totalInventory)
             })
         });
     }
@@ -66,10 +67,10 @@ function HomeComponent() {
     return (
         <div>
             <nav className="navbar navbar-dark bg-dark">
-                <a className="navbar-brand col-sm-3 col-md-2 mr-0 px-3" href="#">Company Name</a>
+                <a className="navbar-brand col-sm-3 col-md-2 mr-0 px-3" href="true">Company Name</a>
                 <ul className="navbar-nav px-3">
                     <li className="nav-item text-nowrap">
-                        <a className="nav-link" href="#">Sign out</a>
+                        <a className="nav-link" href="true">Sign out</a>
                     </li>
                 </ul>
             </nav>
@@ -78,19 +79,19 @@ function HomeComponent() {
                 <div className="col-md-2 d-none d-md-block bg-light sidebar">
                     <ul className="nav flex-column">
                         <li className="nav-item">
-                            <a className="nav-link" href="#">Dashboard</a>
+                            <a className="nav-link" href="true">Dashboard</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="#">Orders</a>
+                            <a className="nav-link" href="true">Orders</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="#">Products</a>
+                            <a className="nav-link" href="true">Products</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="#">Suppliers</a>
+                            <a className="nav-link" href="true">Suppliers</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="#">Customers</a>
+                            <a className="nav-link" href="true">Customers</a>
                         </li>
                     </ul>
                 </div>
@@ -100,8 +101,9 @@ function HomeComponent() {
                         <DashboardComponent
                             totalSales={totalSales}
                             totalOrders={totalOrders.length}
-                            addNewOrder={addNewOrder}
                              />
+                        
+                        <SalesComponent addNewOrder={addNewOrder} />
 
                         {/* <OrderForm/> */}
 

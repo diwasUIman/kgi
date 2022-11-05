@@ -1,54 +1,61 @@
 import React, { useState, useEffect } from 'react';
 import '../App.css';
 import OrderListTable from './order-list-table';
-import { CompanyInfoComponent } from './company-info'
+import { CustomerDetailsComponent } from './customer-details';
 
 export default function SalesComponent(props) {
 
-    const [currentProduct, setCurrentProduct] = useState({})
-    const [productList, setList] = useState([
-        {
-            id: 1,
-            catagory: "",
-            name: "Product 1",
-            rate: 88.5,
+    const [currentProduct, setCurrentProduct] = useState({});
+    const [productList, setProductList] = useState([]);
+    const [orderList, setOrderList] = useState([]);
+    const [totalSales, setTotalSales] = useState(0);
+    const [customerDetails, setCustomerDetails] = useState({})
+    const [errors, setErrors] = useState({});
 
-        },
-        {
-            id: 2,
-            catagory: "",
-            name: "Product 2",
-            rate: 15,
+    /// USEEFFECT CALL HERE ///
+    useEffect(() => {
 
-        },
-        {
-            id: 3,
-            catagory: "",
-            name: "Product 3",
-            rate: 100,
+        console.log("firing useEffect...")
 
-        },
-        {
-            id: 4,
-            catagory: "",
-            name: "Product 4",
-            rate: 50,
+        fetch('data/MOCK_DATA.json')
+            .then(res => res.json())
+            .then(data => setProductList(data.records))
+            .catch(error => {
+                setErrors({ fetchError: error.toString() });
+                console.error('There was an fetch error!', error);
+            });
+    }, [])
+    /// USEEFFECT CALL HERE ///
+    useEffect(() => {
+        console.log("Firing 2ns useeffect")
+        grossAmount = orderList.map(item => item.totalAmount)
+            .reduce((prev, curr) => { return prev + curr }, 0);
+        // CNAHGED NULL TO 0 above
 
-        },
-        {
-            id: 5,
-            catagory: "",
-            name: "Product 5",
-            rate: 10,
+        document.getElementById("grossAmount").value = grossAmount;
 
-        }
-    ])
-    const [orderList, setOrderList] = useState([])
-    const [totalSales, setTotalSales] = useState(0)
+        let VAT = (13 / 100 * grossAmount);
+        document.getElementById("VAT").value = VAT;
+
+        netAmount = grossAmount + VAT;
+        document.getElementById("netAmount").value = netAmount;
+
+        sumTotal = totalSales + netAmount
+    })
+
+    let customerInfo;
+    let grossAmount;
+    let netAmount;
+    let sumTotal;
+    let products = productList.map((item, idx) => {
+        return (
+            <option className="lead" key={idx}> {item.Name} </option>
+        )
+    });
 
     function handleProductChange(evt) {
         let result = productList.find(item => {
-            return evt.target.value === item.name;
+            return evt.target.value === item.Name;
         })
         setCurrentProduct(result);
         document.getElementById("quantity").value = "";
@@ -62,7 +69,10 @@ export default function SalesComponent(props) {
     }
 
     function handleAdd() {
-        setOrderList(orderList => [...orderList, currentProduct]);
+        // console.log("curent product " + JSON.stringify(currentProduct))
+        // console.log("order list " + JSON.stringify(orderList))
+        if (currentProduct)
+            setOrderList(orderList => [...orderList, currentProduct]);
         resetOrder();
     }
 
@@ -78,13 +88,25 @@ export default function SalesComponent(props) {
     }
 
     function handleCreate() {
-        props.addNewOrder(orderList, sumTotal);
-        setOrderList([])
-    }
+        customerInfo =  {
+            "id": {
+                "$oid": document.getElementById("c_ID").value
+            },
+            "full_name": document.getElementById("full_name").value,
+            "email": "",
+            "gender": "",
+            "address": document.getElementById("c_address").value,
+            "phone": document.getElementById("c_phone").value
+        }
+        console.log("customerInfo ", customerInfo)
+        setCustomerDetails(customerInfo);
 
-    let grossAmount;
-    let netAmount;
-    let sumTotal;
+        if (orderList.length)
+            props.addNewOrder(orderList, sumTotal, customerDetails);
+        setOrderList([]);
+
+        console.log("customerDetails ", customerDetails)
+    }
 
     function handleDiscount(evt) {
         let discount = evt.target.value;
@@ -99,36 +121,14 @@ export default function SalesComponent(props) {
         document.getElementById("netAmount").value = netAmount - discount;
     }
 
-    useEffect(() => {
-        grossAmount = orderList.map(item => item.totalAmount)
-            .reduce((prev, curr) => { return prev + curr }, 0);
-                                    // CNAHGED NULL TO 0 above
-
-        document.getElementById("grossAmount").value = grossAmount;
-
-        let VAT = (13 / 100 * grossAmount);
-        document.getElementById("VAT").value = VAT;
-
-        netAmount = grossAmount + VAT;
-        document.getElementById("netAmount").value = netAmount;
-
-        sumTotal = totalSales + netAmount
-    })
-
-    let products = productList.map((item, idx) => {
-        return (
-            <option className="lead" key={idx}> {item.name} </option>
-        )
-    });
-
     return (
         <div className="mt-4">
-            <div className="my-2"><b>Add Order</b></div>
             <form id="sales-form">
-                {/* Customer information */}
-                <CompanyInfoComponent name="Customer" />
+
+                <CustomerDetailsComponent detailType="Customer" />
 
                 <div className="table-responsive pt-4">
+                    <div className="my-2"><b>Add Order</b></div>
                     <table className="table table-striped table-sm">
                         <thead>
                             <tr>
@@ -150,10 +150,10 @@ export default function SalesComponent(props) {
                             <tr>
                                 <th scope="col"></th>
                                 <th scope="col">
-                                    <select name="products" id="products" className="form-control"
+                                    <select name="products" id="products" className="form-control" defaultValue={'default'}
                                         style={{ width: "100%" }}
                                         onChange={handleProductChange} >
-                                        <option hidden disabled selected value> Select a Product </option>
+                                        <option disabled hidden value={'default'}> Select a product</option>
                                         {products}
                                     </select>
                                 </th>
@@ -182,7 +182,8 @@ export default function SalesComponent(props) {
                     </table>
                 </div>
 
-                <table style={{ width: "100%" }}>
+<div>
+                <div id="amtDetails" class="table-responsive pt-4 float-rt">
                     <tr>
                         <td colSpan="3" style={{ textAlign: "right" }}>
                             <div>
@@ -204,12 +205,17 @@ export default function SalesComponent(props) {
                             </div>
                         </td>
                     </tr>
-                </table>
-                <button type="button" className="btn btn-primary" id="create-order" style={{ marginRight: "20px" }}
-                    onClick={() => handleCreate()}>
-                    Create Order
-                </button>
-                <button type="button" className="btn btn-dark" onClick={() => setOrderList([])}>Cancel</button>
+                </div>
+
+                <div class="table-responsive pt-4">
+                    <button type="button" className="btn btn-primary" id="create-order" style={{ marginRight: "20px" }}
+                        onClick={() => handleCreate()}>
+                        Create Order
+                    </button>
+                    <button type="button" className="btn btn-dark" onClick={() => setOrderList([])}>Cancel</button>
+                </div>
+                
+                </div>
             </form>
         </div >
     )

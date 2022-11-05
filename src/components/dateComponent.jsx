@@ -8,7 +8,7 @@ export function DateComponent() {
     let year = d.getFullYear();
     return (
         <div className="mb-2 px-3">
-            <label> Date : {`${day} / ${month} / ${year}`}</label>
+            <label> Date : {`${month} / ${day} / ${year}`}</label>
         </div>
     )
 }
